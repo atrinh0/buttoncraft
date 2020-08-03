@@ -28,14 +28,16 @@ let DEFAULT_DAMPING: Double = 0.35
 let DEFAULT_DURATION: Double = 1
 
 struct ContentView: View {
-    @State private var scale: Double = DEFAULT_SCALE
-    @State private var rotation: Double = DEFAULT_ROTATION
-    @State private var blur: Double = DEFAULT_BLUR
-    @State private var color: Color = DEFAULT_COLOR
-    @State private var animate: Bool = DEFAULT_ANIMATE
-    @State private var response: Double = DEFAULT_RESPONSE
-    @State private var damping: Double = DEFAULT_DAMPING
-    @State private var duration: Double = DEFAULT_DURATION
+    @State private var scale = DEFAULT_SCALE
+    @State private var rotation = DEFAULT_ROTATION
+    @State private var blur = DEFAULT_BLUR
+    @State private var color = DEFAULT_COLOR
+    @State private var animate = DEFAULT_ANIMATE
+    @State private var response = DEFAULT_RESPONSE
+    @State private var damping = DEFAULT_DAMPING
+    @State private var duration = DEFAULT_DURATION
+    
+    @State private var showCode = false
     
     var body: some View {
         VStack(spacing: 20) {
@@ -60,6 +62,7 @@ struct ContentView: View {
             }
             .overlay(Text("buttoncraft")
                         .font(Font.largeTitle.bold()))
+            .zIndex(1)
             HStack(spacing: 30) {
                 Button(action: { }) {
                     Text("tap here")
@@ -78,57 +81,110 @@ struct ContentView: View {
                 }
                 .pressableButton(style: getParams())
             }
-            .padding()
+            .zIndex(1)
             ScrollView {
-                VStack {
-                    Slider(value: $scale, in: 0.05...2, step: 0.05)
-                    Text("Scale Effect: \(scale * 100, specifier: "%.0f")%")
-                        .font(Font.title3.bold())
-                    Slider(value: $rotation, in: -360...360, step: 5)
-                    Text("Rotation Effect: \(rotation, specifier: "%.0f") degrees")
-                        .font(Font.title3.bold())
-                    Slider(value: $blur, in: 0...15, step: 0.5)
-                    Text("Blur Radius: \(blur, specifier: "%.1f")")
-                        .font(Font.title3.bold())
-                    ColorPicker("Color", selection: $color)
-                        .font(Font.title3.bold())
-                        .padding()
-                    Toggle("Animate", isOn: $animate.animation())
-                        .font(Font.title3.bold())
-                        .toggleStyle(SwitchToggleStyle(tint: DEFAULT_COLOR))
-                        .padding()
-                    if animate {
-                        Slider(value: $response, in: 0...1, step: 0.05)
-                        Text("Spring Stiffness: \(response, specifier: "%.2f")\n(0 being 🐇 and 1 being 🐢)")
-                            .font(Font.title3.bold())
-                            .multilineTextAlignment(.center)
-                        Slider(value: $damping, in: 0.05...1, step: 0.05)
-                        Text("Spring Damping: \(damping, specifier: "%.2f")\n(0 is bouncy 🤪)")
-                            .font(Font.title3.bold())
-                            .multilineTextAlignment(.center)
-//                        Slider(value: $duration, in: 0...60, step: 1)
-//                        Text("Spring Duration: \(duration, specifier: "%.2f")")
-//                            .font(Font.title3.bold())
+                ScrollViewReader { reader in
+                    VStack(alignment: .leading) {
+                        Slider(value: $scale, in: 0.05...2, step: 0.05)
+                        Text("Scale Effect: \(scale * 100, specifier: "%.0f")%")
+                            .font(Font.body.bold())
+                        Slider(value: $rotation, in: -360...360, step: 5)
+                        Text("Rotation Effect: \(rotation, specifier: "%.0f") degrees")
+                            .font(Font.body.bold())
+                        Slider(value: $blur, in: 0...15, step: 0.5)
+                        Text("Blur Radius: \(blur, specifier: "%.1f")")
+                            .font(Font.body.bold())
+                        ColorPicker("Color", selection: $color)
+                            .font(Font.body.bold())
+                            .padding(.vertical)
+                        Toggle("Animate", isOn: $animate.animation())
+                            .font(Font.body.bold())
+                            .toggleStyle(SwitchToggleStyle(tint: DEFAULT_COLOR))
+                            .padding(.vertical)
+                        if animate {
+                            Slider(value: $response, in: 0...1, step: 0.05)
+                            Text("Spring Stiffness: \(response, specifier: "%.2f")")
+                                .font(Font.body.bold())
+                                .padding(.bottom, 10)
+                            Text("(low for zippy 🐇, high for sluggish 🐢)")
+                                .font(Font.body.bold())
+                            Slider(value: $damping, in: 0.05...1, step: 0.05)
+                            Text("Spring Damping: \(damping, specifier: "%.2f")")
+                                .font(Font.body.bold())
+                                .padding(.bottom, 10)
+                            Text("(low for bouncier animations 🤪)")
+                                .font(Font.body.bold())
+                        }
+                    }
+                    .accentColor(DEFAULT_COLOR)
+                    .padding(30)
+                    .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
+                                    .foregroundColor(Color.primary.opacity(0.05)))
+                    .padding()
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            withAnimation {
+                                showCode.toggle()
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+                                withAnimation {
+                                    reader.scrollTo(73, anchor: .bottom)
+                                }
+                            }
+                        }) {
+                            Image(systemName: "curlybraces")
+                                .font(Font.body.bold())
+                                .imageScale(.large)
+                                .foregroundColor(Color.primary)
+                                .padding()
+                        }
+                        .pressableButton(style: getParams(), drawBackground: false)
+                        if showCode {
+                            Button(action: {
+                                copySnippet()
+                            }) {
+                                Image(systemName: "doc.on.doc.fill")
+                                    .font(Font.body.bold())
+                                    .imageScale(.large)
+                                    .foregroundColor(Color.primary)
+                                    .padding()
+                            }
+                            .pressableButton(style: getParams(), drawBackground: false)
+                        }
+                        Spacer()
+                    }
+                    if showCode {
+                        Text(generatedCode())
+                            .font(Font.caption2.bold())
+                            .padding(30)
+                            .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
+                                            .foregroundColor(Color.primary.opacity(0.05)))
+                            .padding()
+                        Button(action: { }) {
+                            Text("just like that")
+                                .font(Font.body.bold())
+                                .padding()
+                                .foregroundColor(Color.primary)
+                                .colorInvert()
+                        }
+                        .pressableButton(style: getParams())
+                        .id(73)
                     }
                 }
-                .accentColor(DEFAULT_COLOR)
-                .padding(30)
-                .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
-                                .foregroundColor(Color.primary.opacity(0.05)))
-                .padding()
             }
         }
     }
     
     private func randomize() {
         withAnimation {
-            scale = Double.random(in: 0.5...1.5)
-            rotation = Double.random(in: -45...45)
-            blur = Double.random(in: 0...2)
+            scale = Double.random(in: 0.5...1.5).rounded(toPlaces: 2)
+            rotation = Double.random(in: -45...45).rounded(toPlaces: 0)
+            blur = Double.random(in: 0...2).rounded(toPlaces: 1)
             color = Color(red: Double.random(in: 0...1), green: Double.random(in: 0...1), blue: Double.random(in: 0...1), opacity: 1)
             animate = true
-            response = Double.random(in: 0...0.6)
-            damping = Double.random(in: 0.05...0.6)
+            response = Double.random(in: 0...0.6).rounded(toPlaces: 2)
+            damping = Double.random(in: 0.05...0.6).rounded(toPlaces: 2)
             duration = DEFAULT_DURATION
         }
     }
@@ -156,11 +212,49 @@ struct ContentView: View {
                                  damping: damping,
                                  duration: duration)
     }
+    
+    private func generatedCode() -> String {
+        return """
+            struct MyButtonStyle: ButtonStyle {
+                func makeBody(configuration: Self.Configuration) -> some View {
+                    configuration.label
+                        .background(Capsule()
+                                        .foregroundColor(configuration.isPressed ? Color.gray : Color.primary)) // replace gray
+                        .scaleEffect(configuration.isPressed ? CGFloat(\(scale)) : 1.0)
+                        .rotationEffect(.degrees(configuration.isPressed ? \(rotation) : 0))
+                        .blur(radius: configuration.isPressed ? CGFloat(\(blur)) : 0)
+                        .animation(\(animate ? "Animation.spring(response: \(response), dampingFraction: \(damping), blendDuration: 1)" : ".none"))
+                }
+            }
+
+            // to use
+            Button(action: { }) {
+                Text("just like that")
+                    .font(Font.body.bold())
+                    .padding()
+                    .foregroundColor(Color.primary)
+                    .colorInvert()
+            }
+            .buttonStyle(MyButtonStyle())
+        """
+    }
+    
+    private func copySnippet() {
+        let pasteboard = UIPasteboard.general
+        pasteboard.string = generatedCode()
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+extension Double {
+    func rounded(toPlaces places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
     }
 }
 
@@ -171,9 +265,9 @@ struct TestButton: ViewModifier {
         content
             .font(Font.body.bold())
             .imageScale(.large)
+            .padding()
             .foregroundColor(Color.primary)
             .colorInvert()
-            .padding()
     }
 }
 
