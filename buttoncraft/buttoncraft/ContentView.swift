@@ -28,6 +28,8 @@ let DEFAULT_DAMPING: Double = 0.35
 let DEFAULT_DURATION: Double = 1
 
 struct ContentView: View {
+    @Environment(\.openURL) var openURL
+    
     @State private var scale = DEFAULT_SCALE
     @State private var rotation = DEFAULT_ROTATION
     @State private var blur = DEFAULT_BLUR
@@ -38,6 +40,7 @@ struct ContentView: View {
     @State private var duration = DEFAULT_DURATION
     
     @State private var showCode = false
+    @State private var showCopied = false
     
     var body: some View {
         VStack(spacing: 20) {
@@ -134,43 +137,62 @@ struct ContentView: View {
                             }
                         }) {
                             Image(systemName: "curlybraces")
-                                .font(Font.body.bold())
+                                .font(Font.title2.bold())
                                 .imageScale(.large)
                                 .foregroundColor(Color.primary)
                                 .padding()
                         }
                         .pressableButton(style: getParams(), drawBackground: false)
-                        if showCode {
-                            Button(action: {
-                                copySnippet()
-                            }) {
-                                Image(systemName: "doc.on.doc.fill")
+                        Spacer()
+                    }
+                    if showCode {
+                        ZStack(alignment: .bottomTrailing) {
+                            Text(generatedCode())
+                                .font(Font.caption2.bold())
+                                .padding(30)
+                                .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
+                                                .foregroundColor(Color.primary.opacity(0.05)))
+                                .padding()
+                            HStack {
+                                Button(action: {
+                                    copySnippet()
+                                }) {
+                                    Image(systemName: showCopied ? "checkmark" : "doc.on.doc.fill")
+                                        .font(Font.body.bold())
+                                        .imageScale(.large)
+                                        .foregroundColor(Color.primary)
+                                }
+                                .pressableButton(style: getParams(), drawBackground: false)
+                                if showCopied {
+                                    Text("Copied")
+                                        .font(Font.body.bold())
+                                }
+                            }
+                            .padding(40)
+                        }
+                        HStack {
+                            Button(action: { }) {
+                                Text("just like that")
                                     .font(Font.body.bold())
+                                    .padding()
+                                    .foregroundColor(Color.primary)
+                                    .colorInvert()
+                            }
+                            .pressableButton(style: getParams())
+                            .id(73)
+                            Button(action: {
+                                goToGithub()
+                            }) {
+                                Image(systemName: "safari.fill")
+                                    .font(Font.title2.bold())
                                     .imageScale(.large)
                                     .foregroundColor(Color.primary)
                                     .padding()
                             }
                             .pressableButton(style: getParams(), drawBackground: false)
                         }
-                        Spacer()
                     }
-                    if showCode {
-                        Text(generatedCode())
-                            .font(Font.caption2.bold())
-                            .padding(30)
-                            .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
-                                            .foregroundColor(Color.primary.opacity(0.05)))
-                            .padding()
-                        Button(action: { }) {
-                            Text("just like that")
-                                .font(Font.body.bold())
-                                .padding()
-                                .foregroundColor(Color.primary)
-                                .colorInvert()
-                        }
-                        .pressableButton(style: getParams())
-                        .id(73)
-                    }
+                    Spacer(minLength: 20)
                 }
             }
         }
@@ -226,7 +248,13 @@ struct ContentView: View {
                         .animation(\(animate ? "Animation.spring(response: \(response), dampingFraction: \(damping), blendDuration: 1)" : ".none"))
                 }
             }
-
+            
+            extension Button {
+                func myButtonStyle() -> some View {
+                    self.buttonStyle(MyButtonStyle())
+                }
+            }
+            
             // to use
             Button(action: { }) {
                 Text("just like that")
@@ -235,13 +263,26 @@ struct ContentView: View {
                     .foregroundColor(Color.primary)
                     .colorInvert()
             }
-            .buttonStyle(MyButtonStyle())
+            .myButtonStyle()
         """
     }
     
     private func copySnippet() {
         let pasteboard = UIPasteboard.general
         pasteboard.string = generatedCode()
+        
+        withAnimation {
+            showCopied = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation {
+                    showCopied = false
+                }
+            }
+        }
+    }
+    
+    private func goToGithub() {
+        openURL(URL(string: "https://github.com/atrinh0/buttoncraft")!)
     }
 }
 
