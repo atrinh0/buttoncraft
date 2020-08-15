@@ -10,9 +10,54 @@
 # buttoncraft (SwiftUI 2.0 App)
 > Experimenting with `SwiftUI 2.0` whilst creating a practical app to craft that perfect button style.
 
-<img src="images/scalerotateblur.gif"> <img src="images/shuffle.gif">
+### ✈️ Testflight
 
-<img src="images/copysnippet.gif"> <img src="images/colorpicker.png" width="277" height="600">
+https://testflight.apple.com/join/pZDhygQt
+
+<img src="images/demo.gif"> <img src="images/copycode.gif">
+
+### 👨🏻‍💻 Code exported from app
+
+```Swift
+struct MyButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .background(Capsule()
+                            .foregroundColor(configuration.isPressed ? Color.primary.opacity(0.75) : Color.primary))
+            .scaleEffect(configuration.isPressed ? CGFloat(0.85) : 1.0)
+            .rotationEffect(.degrees(configuration.isPressed ? 0.0 : 0))
+            .blur(radius: configuration.isPressed ? CGFloat(0.0) : 0)
+            .animation(Animation.spring(response: 0.35, dampingFraction: 0.35, blendDuration: 1))
+    }
+}
+
+extension Button {
+    func myButtonStyle() -> some View {
+        self.buttonStyle(MyButtonStyle())
+    }
+}
+
+// to use
+Button(action: { }) {
+    Text("just like that")
+        .font(Font.body.bold())
+        .padding()
+        .foregroundColor(Color.primary)
+        .colorInvert()
+}
+.myButtonStyle()
+
+Button(action: { }) {
+    Image(systemName: "face.smiling")
+        .font(Font.body.bold())
+        .imageScale(.large)
+        .padding()
+        .foregroundColor(Color.primary)
+        .colorInvert()
+}
+.myButtonStyle()
+
+```
 
 ### 🧐 Features
 
