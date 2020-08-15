@@ -87,57 +87,77 @@ struct ContentView: View {
             .zIndex(1)
             ScrollView {
                 ScrollViewReader { reader in
-                    GroupBox(label:
-                                Text("Scale Effect: \(scale * 100, specifier: "%.0f")%")
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Scale Effect")
                                 .font(Font.body.bold())
-                    ) {
+                            Spacer()
+                            Text("\(scale * 100, specifier: "%.0f")%")
+                                .font(Font.body.bold())
+                        }
                         Slider(value: $scale, in: 0.05...2, step: 0.05)
                     }
-                    .paddedStyle()
-                    GroupBox(label:
-                                Text("Rotation Effect: \(rotation, specifier: "%.0f") degrees")
+                    .paddedStack()
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Rotation Effect")
                                 .font(Font.body.bold())
-                    ) {
+                            Spacer()
+                            Text("\(rotation, specifier: "%.0f") degrees")
+                                .font(Font.body.bold())
+                        }
                         Slider(value: $rotation, in: -360...360, step: 5)
                     }
-                    .paddedStyle()
-                    GroupBox(label:
-                                Text("Blur Radius: \(blur, specifier: "%.1f")")
+                    .paddedStack()
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Blur Radius")
                                 .font(Font.body.bold())
-                    ) {
+                            Spacer()
+                            Text("\(blur, specifier: "%.1f")")
+                                .font(Font.body.bold())
+                        }
                         Slider(value: $blur, in: 0...15, step: 0.5)
                     }
-                    .paddedStyle()
-                    GroupBox {
+                    .paddedStack()
+                    VStack(alignment: .leading) {
                         ColorPicker("Color", selection: $color)
                             .font(Font.body.bold())
                     }
-                    .paddedStyle()
-                    GroupBox {
+                    .paddedStack()
+                    VStack(alignment: .leading) {
                         Toggle("Animation", isOn: $animate.animation())
                             .font(Font.body.bold())
                             .toggleStyle(SwitchToggleStyle(tint: DEFAULT_COLOR))
                     }
-                    .paddedStyle()
+                    .paddedStack()
                     if animate {
-                        GroupBox(label:
-                                    Text("Spring Stiffness: \(response, specifier: "%.2f")")
-                                        .font(Font.body.bold())
-                        ) {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Spring Stiffness")
+                                    .font(Font.body.bold())
+                                Spacer()
+                                Text("\(response, specifier: "%.2f")")
+                                    .font(Font.body.bold())
+                            }
                             Slider(value: $response, in: 0...1, step: 0.05)
                             Text("(low for zippy 🐇, high for sluggish 🐢)")
                                 .font(Font.body.bold())
                         }
-                        .paddedStyle()
-                        GroupBox(label:
-                                    Text("Spring Damping: \(damping, specifier: "%.2f")")
-                                        .font(Font.body.bold())
-                        ) {
+                        .paddedStack()
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Spring Damping")
+                                    .font(Font.body.bold())
+                                Spacer()
+                                Text("\(damping, specifier: "%.2f")")
+                                    .font(Font.body.bold())
+                            }
                             Slider(value: $damping, in: 0.05...1, step: 0.05)
                             Text("(low for bouncier animations 🤪)")
                                 .font(Font.body.bold())
                         }
-                        .paddedStyle()
+                        .paddedStack()
                     }
                     HStack {
                         Spacer()
@@ -162,9 +182,11 @@ struct ContentView: View {
                             Button(action: {
                                 goToGithub()
                             }) {
-                                Image(systemName: "safari.fill")
-                                    .font(Font.title2.bold())
-                                    .imageScale(.large)
+                                let scale = UIFontMetrics.default.scaledValue(for: 32)
+                                Image("mark")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: scale, height: scale)
                                     .foregroundColor(Color.primary)
                                     .padding()
                             }
@@ -176,9 +198,9 @@ struct ContentView: View {
                     if showCode {
                         ZStack(alignment: .bottomTrailing) {
                             Text(generatedCode())
-                                .font(Font.caption2.bold())
-                                .padding(30)
-                                .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
+                                .font(Font.custom("Menlo-Regular", size: 12))
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
                                                 .foregroundColor(Color.primary.opacity(0.05)))
                                 .padding()
                             HStack {
@@ -198,7 +220,7 @@ struct ContentView: View {
                             }
                             .padding(40)
                         }
-                        HStack {
+                        HStack(spacing: 30) {
                             Button(action: { }) {
                                 Text("just like that")
                                     .testButtonStyle()
@@ -256,45 +278,47 @@ struct ContentView: View {
     }
     
     private func generatedCode() -> String {
-        return """
-            struct MyButtonStyle: ButtonStyle {
-                func makeBody(configuration: Self.Configuration) -> some View {
-                    configuration.label
-                        .background(Capsule()
-                                        .foregroundColor(configuration.isPressed ? Color.gray : Color.primary)) // replace gray
-                        .scaleEffect(configuration.isPressed ? CGFloat(\(scale)) : 1.0)
-                        .rotationEffect(.degrees(configuration.isPressed ? \(rotation) : 0))
-                        .blur(radius: configuration.isPressed ? CGFloat(\(blur)) : 0)
-                        .animation(\(animate ? "Animation.spring(response: \(response), dampingFraction: \(damping), blendDuration: 1)" : ".none"))
-                }
-            }
-            
-            extension Button {
-                func myButtonStyle() -> some View {
-                    self.buttonStyle(MyButtonStyle())
-                }
-            }
-            
-            // to use
-            Button(action: { }) {
-                Text("just like that")
-                    .font(Font.body.bold())
-                    .padding()
-                    .foregroundColor(Color.primary)
-                    .colorInvert()
-            }
-            .myButtonStyle()
+        return
+"""
+struct MyButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .background(Capsule()
+                            .foregroundColor(configuration.isPressed ? Color.gray : Color.primary)) // replace gray
+            .scaleEffect(configuration.isPressed ? CGFloat(\(scale)) : 1.0)
+            .rotationEffect(.degrees(configuration.isPressed ? \(rotation) : 0))
+            .blur(radius: configuration.isPressed ? CGFloat(\(blur)) : 0)
+            .animation(\(animate ? "Animation.spring(response: \(response), dampingFraction: \(damping), blendDuration: 1)" : ".none"))
+    }
+}
 
-            Button(action: { }) {
-                Image(systemName: "face.smiling")
-                    .font(Font.body.bold())
-                    .imageScale(.large)
-                    .padding()
-                    .foregroundColor(Color.primary)
-                    .colorInvert()
-            }
-            .myButtonStyle()
-        """
+extension Button {
+    func myButtonStyle() -> some View {
+        self.buttonStyle(MyButtonStyle())
+    }
+}
+
+// to use
+Button(action: { }) {
+    Text("just like that")
+        .font(Font.body.bold())
+        .padding()
+        .foregroundColor(Color.primary)
+        .colorInvert()
+}
+.myButtonStyle()
+
+Button(action: { }) {
+    Image(systemName: "face.smiling")
+        .font(Font.body.bold())
+        .imageScale(.large)
+        .padding()
+        .foregroundColor(Color.primary)
+        .colorInvert()
+}
+.myButtonStyle()
+
+"""
     }
     
     private func copySnippet() {
@@ -376,19 +400,20 @@ extension Button {
     }
 }
 
-struct PaddedGroupBoxStyle: ViewModifier {
+struct PaddedStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .accentColor(DEFAULT_COLOR)
-            .padding(.horizontal)
-            .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
+            .padding(.vertical)
+            .padding(.horizontal, 20)
+            .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
                             .foregroundColor(Color.primary.opacity(0.05)))
             .padding(.horizontal)
     }
 }
 
-extension GroupBox {
-    func paddedStyle() -> some View {
-        self.modifier(PaddedGroupBoxStyle())
+extension VStack {
+    func paddedStack() -> some View {
+        self.modifier(PaddedStyle())
     }
 }
