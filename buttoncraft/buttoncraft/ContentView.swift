@@ -87,43 +87,58 @@ struct ContentView: View {
             .zIndex(1)
             ScrollView {
                 ScrollViewReader { reader in
-                    VStack(alignment: .leading) {
+                    GroupBox(label:
+                                Text("Scale Effect: \(scale * 100, specifier: "%.0f")%")
+                                .font(Font.body.bold())
+                    ) {
                         Slider(value: $scale, in: 0.05...2, step: 0.05)
-                        Text("Scale Effect: \(scale * 100, specifier: "%.0f")%")
-                            .font(Font.body.bold())
+                    }
+                    .paddedStyle()
+                    GroupBox(label:
+                                Text("Rotation Effect: \(rotation, specifier: "%.0f") degrees")
+                                .font(Font.body.bold())
+                    ) {
                         Slider(value: $rotation, in: -360...360, step: 5)
-                        Text("Rotation Effect: \(rotation, specifier: "%.0f") degrees")
-                            .font(Font.body.bold())
+                    }
+                    .paddedStyle()
+                    GroupBox(label:
+                                Text("Blur Radius: \(blur, specifier: "%.1f")")
+                                .font(Font.body.bold())
+                    ) {
                         Slider(value: $blur, in: 0...15, step: 0.5)
-                        Text("Blur Radius: \(blur, specifier: "%.1f")")
-                            .font(Font.body.bold())
+                    }
+                    .paddedStyle()
+                    GroupBox {
                         ColorPicker("Color", selection: $color)
                             .font(Font.body.bold())
-                            .padding(.vertical)
-                        Toggle("Animate", isOn: $animate.animation())
+                    }
+                    .paddedStyle()
+                    GroupBox {
+                        Toggle("Animation", isOn: $animate.animation())
                             .font(Font.body.bold())
                             .toggleStyle(SwitchToggleStyle(tint: DEFAULT_COLOR))
-                            .padding(.vertical)
-                        if animate {
+                    }
+                    .paddedStyle()
+                    if animate {
+                        GroupBox(label:
+                                    Text("Spring Stiffness: \(response, specifier: "%.2f")")
+                                        .font(Font.body.bold())
+                        ) {
                             Slider(value: $response, in: 0...1, step: 0.05)
-                            Text("Spring Stiffness: \(response, specifier: "%.2f")")
-                                .font(Font.body.bold())
-                                .padding(.bottom, 10)
                             Text("(low for zippy 🐇, high for sluggish 🐢)")
                                 .font(Font.body.bold())
+                        }
+                        .paddedStyle()
+                        GroupBox(label:
+                                    Text("Spring Damping: \(damping, specifier: "%.2f")")
+                                        .font(Font.body.bold())
+                        ) {
                             Slider(value: $damping, in: 0.05...1, step: 0.05)
-                            Text("Spring Damping: \(damping, specifier: "%.2f")")
-                                .font(Font.body.bold())
-                                .padding(.bottom, 10)
                             Text("(low for bouncier animations 🤪)")
                                 .font(Font.body.bold())
                         }
+                        .paddedStyle()
                     }
-                    .accentColor(DEFAULT_COLOR)
-                    .padding(30)
-                    .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
-                                    .foregroundColor(Color.primary.opacity(0.05)))
-                    .padding()
                     HStack {
                         Spacer()
                         Button(action: {
@@ -143,8 +158,21 @@ struct ContentView: View {
                                 .padding()
                         }
                         .pressableButton(style: getParams(), drawBackground: false)
+                        if showCode {
+                            Button(action: {
+                                goToGithub()
+                            }) {
+                                Image(systemName: "safari.fill")
+                                    .font(Font.title2.bold())
+                                    .imageScale(.large)
+                                    .foregroundColor(Color.primary)
+                                    .padding()
+                            }
+                            .pressableButton(style: getParams(), drawBackground: false)
+                        }
                         Spacer()
                     }
+                    .padding(.top)
                     if showCode {
                         ZStack(alignment: .bottomTrailing) {
                             Text(generatedCode())
@@ -173,23 +201,15 @@ struct ContentView: View {
                         HStack {
                             Button(action: { }) {
                                 Text("just like that")
-                                    .font(Font.body.bold())
-                                    .padding()
-                                    .foregroundColor(Color.primary)
-                                    .colorInvert()
+                                    .testButtonStyle()
                             }
                             .pressableButton(style: getParams())
                             .id(73)
-                            Button(action: {
-                                goToGithub()
-                            }) {
-                                Image(systemName: "safari.fill")
-                                    .font(Font.title2.bold())
-                                    .imageScale(.large)
-                                    .foregroundColor(Color.primary)
-                                    .padding()
+                            Button(action: { }) {
+                                Image(systemName: "face.smiling")
+                                    .testButtonStyle()
                             }
-                            .pressableButton(style: getParams(), drawBackground: false)
+                            .pressableButton(style: getParams())
                         }
                     }
                     Spacer(minLength: 20)
@@ -259,6 +279,16 @@ struct ContentView: View {
             Button(action: { }) {
                 Text("just like that")
                     .font(Font.body.bold())
+                    .padding()
+                    .foregroundColor(Color.primary)
+                    .colorInvert()
+            }
+            .myButtonStyle()
+
+            Button(action: { }) {
+                Image(systemName: "face.smiling")
+                    .font(Font.body.bold())
+                    .imageScale(.large)
                     .padding()
                     .foregroundColor(Color.primary)
                     .colorInvert()
@@ -343,5 +373,22 @@ struct ButtonPressedStyle: ButtonStyle {
 extension Button {
     func pressableButton(style: ButtonStyleParams, drawBackground: Bool = true) -> some View {
         self.buttonStyle(ButtonPressedStyle(style: style, drawBackground: drawBackground))
+    }
+}
+
+struct PaddedGroupBoxStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .accentColor(DEFAULT_COLOR)
+            .padding(.horizontal)
+            .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
+                            .foregroundColor(Color.primary.opacity(0.05)))
+            .padding(.horizontal)
+    }
+}
+
+extension GroupBox {
+    func paddedStyle() -> some View {
+        self.modifier(PaddedGroupBoxStyle())
     }
 }
