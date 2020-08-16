@@ -16,7 +16,7 @@ https://testflight.apple.com/join/pZDhygQt
 
 <img src="images/demo.gif"> <img src="images/copycode.gif">
 
-### 👨🏻‍💻 Code exported from app
+### 👨🏻‍💻 Code outputted from app
 
 ```Swift
 struct MyButtonStyle: ButtonStyle {
