@@ -201,7 +201,7 @@ struct ContentView: View {
                                 .font(Font.custom("Menlo-Regular", size: 12))
                                 .padding()
                                 .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                                .foregroundColor(Color.primary.opacity(0.05)))
+                                                .foregroundColor(Color(UIColor.secondarySystemBackground)))
                                 .padding()
                             HStack {
                                 Button(action: {
@@ -407,7 +407,7 @@ struct PaddedStyle: ViewModifier {
             .padding(.vertical)
             .padding(.horizontal, 20)
             .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .foregroundColor(Color.primary.opacity(0.05)))
+                            .foregroundColor(Color(UIColor.secondarySystemBackground)))
             .padding(.horizontal)
     }
 }
