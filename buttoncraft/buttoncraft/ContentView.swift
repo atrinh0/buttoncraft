@@ -7,17 +7,6 @@
 
 import SwiftUI
 
-struct ButtonStyleParams {
-    let scale: Double
-    let rotation: Double
-    let blur: Double
-    let color: Color
-    let animate: Bool
-    let response: Double
-    let damping: Double
-    let duration: Double
-}
-
 let DEFAULT_SCALE: Double = 0.85
 let DEFAULT_ROTATION: Double = 0
 let DEFAULT_BLUR: Double = 0
@@ -284,7 +273,7 @@ struct MyButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .background(Capsule()
-                            .foregroundColor(configuration.isPressed ? Color.gray : Color.primary)) // replace gray
+                            .foregroundColor(configuration.isPressed ? Color(.sRGB, red:\(color.components.red.rounded(toPlaces: 3)), green:\(color.components.green.rounded(toPlaces: 3)), blue:\(color.components.blue.rounded(toPlaces: 3)), opacity:\(color.components.opacity.rounded(toPlaces: 2))) : Color.primary))
             .scaleEffect(configuration.isPressed ? CGFloat(\(scale)) : 1.0)
             .rotationEffect(.degrees(configuration.isPressed ? \(rotation) : 0))
             .blur(radius: configuration.isPressed ? CGFloat(\(blur)) : 0)
@@ -343,77 +332,5 @@ Button(action: { }) {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-    }
-}
-
-extension Double {
-    func rounded(toPlaces places:Int) -> Double {
-        let divisor = pow(10.0, Double(places))
-        return (self * divisor).rounded() / divisor
-    }
-}
-
-// MARK: - Button
-
-struct TestButton: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .font(Font.body.bold())
-            .imageScale(.large)
-            .padding()
-            .foregroundColor(Color.primary)
-            .colorInvert()
-    }
-}
-
-extension Image {
-    func testButtonStyle() -> some View {
-        self.modifier(TestButton())
-    }
-}
-
-extension Text {
-    func testButtonStyle() -> some View {
-        self.modifier(TestButton())
-    }
-}
-
-struct ButtonPressedStyle: ButtonStyle {
-    var style: ButtonStyleParams
-    var drawBackground: Bool
-    
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .background(Capsule()
-                            .foregroundColor(configuration.isPressed ? style.color : Color.primary)
-                            .opacity(drawBackground ? 1 : 0))
-            .scaleEffect(configuration.isPressed ? CGFloat(style.scale) : 1.0)
-            .rotationEffect(.degrees(configuration.isPressed ? style.rotation : 0))
-            .blur(radius: configuration.isPressed ? CGFloat(style.blur) : 0)
-            .animation(style.animate ? Animation.spring(response: style.response, dampingFraction: style.damping, blendDuration: style.duration) : .none)
-    }
-}
-
-extension Button {
-    func pressableButton(style: ButtonStyleParams, drawBackground: Bool = true) -> some View {
-        self.buttonStyle(ButtonPressedStyle(style: style, drawBackground: drawBackground))
-    }
-}
-
-struct PaddedStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .accentColor(DEFAULT_COLOR)
-            .padding(.vertical)
-            .padding(.horizontal, 20)
-            .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .foregroundColor(Color(UIColor.secondarySystemBackground)))
-            .padding(.horizontal)
-    }
-}
-
-extension VStack {
-    func paddedStack() -> some View {
-        self.modifier(PaddedStyle())
     }
 }
