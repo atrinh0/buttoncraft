@@ -38,7 +38,7 @@ extension Button {
 }
 
 // to use
-Button(action: { }) {
+Button { } label: {
     Text("just like that")
         .font(Font.body.bold())
         .padding()
@@ -47,7 +47,7 @@ Button(action: { }) {
 }
 .myButtonStyle()
 
-Button(action: { }) {
+Button { } label: {
     Image(systemName: "face.smiling")
         .font(Font.body.bold())
         .imageScale(.large)
