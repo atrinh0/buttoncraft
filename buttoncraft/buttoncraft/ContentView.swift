@@ -7,34 +7,38 @@
 
 import SwiftUI
 
-let DEFAULT_SCALE: Double = 0.85
-let DEFAULT_ROTATION: Double = 0
-let DEFAULT_BLUR: Double = 0
-let DEFAULT_COLOR: Color = Color.primary.opacity(0.75)
-let DEFAULT_ANIMATE: Bool = true
-let DEFAULT_RESPONSE: Double = 0.35
-let DEFAULT_DAMPING: Double = 0.35
-let DEFAULT_DURATION: Double = 1
+struct DefaultConstants {
+    static let scale: Double = 0.85
+    static let rotation: Double = 0
+    static let blur: Double = 0
+    static let color: Color = Color.primary.opacity(0.75)
+    static let shouldAnimate: Bool = true
+    static let response: Double = 0.35
+    static let damping: Double = 0.35
+    static let duration: Double = 1
+}
 
 struct ContentView: View {
     @Environment(\.openURL) var openURL
-    
-    @State private var scale = DEFAULT_SCALE
-    @State private var rotation = DEFAULT_ROTATION
-    @State private var blur = DEFAULT_BLUR
-    @State private var color = DEFAULT_COLOR
-    @State private var animate = DEFAULT_ANIMATE
-    @State private var response = DEFAULT_RESPONSE
-    @State private var damping = DEFAULT_DAMPING
-    @State private var duration = DEFAULT_DURATION
-    
+
+    @State private var scale = DefaultConstants.scale
+    @State private var rotation = DefaultConstants.rotation
+    @State private var blur = DefaultConstants.blur
+    @State private var color = DefaultConstants.color
+    @State private var animate = DefaultConstants.shouldAnimate
+    @State private var response = DefaultConstants.response
+    @State private var damping = DefaultConstants.damping
+    @State private var duration = DefaultConstants.duration
+
     @State private var showCode = false
     @State private var showCopied = false
-    
+
     var body: some View {
         VStack(spacing: 20) {
             HStack {
-                Button(action: { randomize() }) {
+                Button {
+                    randomize()
+                } label: {
                     Image(systemName: "shuffle")
                         .font(Font.body.bold())
                         .imageScale(.large)
@@ -43,7 +47,9 @@ struct ContentView: View {
                 }
                 .pressableButton(style: getParams(), drawBackground: false)
                 Spacer()
-                Button(action: { reset() }) {
+                Button {
+                    reset()
+                } label: {
                     Image(systemName: "arrow.counterclockwise.circle.fill")
                         .font(Font.title2.bold())
                         .imageScale(.large)
@@ -56,18 +62,18 @@ struct ContentView: View {
                         .font(Font.largeTitle.bold()))
             .zIndex(1)
             HStack(spacing: 30) {
-                Button(action: { }) {
+                Button { } label: {
                     Text("tap here")
                         .testButtonStyle()
                 }
                 .pressableButton(style: getParams())
-                Button(action: { }) {
+                Button { } label: {
                     Text("or here")
                         .font(Font.body.bold())
                         .padding()
                 }
                 .pressableButton(style: getParams(), drawBackground: false)
-                Button(action: { }) {
+                Button { } label: {
                     Image(systemName: "star.fill")
                         .testButtonStyle()
                 }
@@ -117,7 +123,7 @@ struct ContentView: View {
                     VStack(alignment: .leading) {
                         Toggle("Animation", isOn: $animate.animation())
                             .font(Font.body.bold())
-                            .toggleStyle(SwitchToggleStyle(tint: DEFAULT_COLOR))
+                            .toggleStyle(SwitchToggleStyle(tint: DefaultConstants.color))
                     }
                     .paddedStack()
                     if animate {
@@ -150,7 +156,7 @@ struct ContentView: View {
                     }
                     HStack {
                         Spacer()
-                        Button(action: {
+                        Button {
                             withAnimation {
                                 showCode.toggle()
                             }
@@ -159,7 +165,7 @@ struct ContentView: View {
                                     reader.scrollTo(73, anchor: .bottom)
                                 }
                             }
-                        }) {
+                        } label: {
                             Image(systemName: "curlybraces")
                                 .font(Font.title2.bold())
                                 .imageScale(.large)
@@ -168,9 +174,9 @@ struct ContentView: View {
                         }
                         .pressableButton(style: getParams(), drawBackground: false)
                         if showCode {
-                            Button(action: {
+                            Button {
                                 goToGithub()
-                            }) {
+                            } label: {
                                 let scale = UIFontMetrics.default.scaledValue(for: 32)
                                 Image("mark")
                                     .resizable()
@@ -193,9 +199,9 @@ struct ContentView: View {
                                                 .foregroundColor(Color(UIColor.secondarySystemBackground)))
                                 .padding()
                             HStack {
-                                Button(action: {
+                                Button {
                                     copySnippet()
-                                }) {
+                                } label: {
                                     Image(systemName: showCopied ? "checkmark" : "doc.on.doc.fill")
                                         .font(Font.body.bold())
                                         .imageScale(.large)
@@ -210,13 +216,13 @@ struct ContentView: View {
                             .padding(40)
                         }
                         HStack(spacing: 30) {
-                            Button(action: { }) {
+                            Button { } label: {
                                 Text("just like that")
                                     .testButtonStyle()
                             }
                             .pressableButton(style: getParams())
                             .id(73)
-                            Button(action: { }) {
+                            Button { } label: {
                                 Image(systemName: "face.smiling")
                                     .testButtonStyle()
                             }
@@ -228,33 +234,38 @@ struct ContentView: View {
             }
         }
     }
-    
+}
+
+extension ContentView {
     private func randomize() {
         withAnimation {
             scale = Double.random(in: 0.5...1.5).rounded(toPlaces: 2)
             rotation = Double.random(in: -45...45).rounded(toPlaces: 0)
             blur = Double.random(in: 0...2).rounded(toPlaces: 1)
-            color = Color(red: Double.random(in: 0...1), green: Double.random(in: 0...1), blue: Double.random(in: 0...1), opacity: 1)
+            color = Color(red: Double.random(in: 0...1),
+                          green: Double.random(in: 0...1),
+                          blue: Double.random(in: 0...1),
+                          opacity: 1)
             animate = true
             response = Double.random(in: 0...0.6).rounded(toPlaces: 2)
             damping = Double.random(in: 0.05...0.6).rounded(toPlaces: 2)
-            duration = DEFAULT_DURATION
+            duration = DefaultConstants.duration
         }
     }
-    
+
     private func reset() {
         withAnimation {
-            scale = DEFAULT_SCALE
-            rotation = DEFAULT_ROTATION
-            blur = DEFAULT_BLUR
-            color = DEFAULT_COLOR
-            animate = DEFAULT_ANIMATE
-            response = DEFAULT_RESPONSE
-            damping = DEFAULT_DAMPING
-            duration = DEFAULT_DURATION
+            scale = DefaultConstants.scale
+            rotation = DefaultConstants.rotation
+            blur = DefaultConstants.blur
+            color = DefaultConstants.color
+            animate = DefaultConstants.shouldAnimate
+            response = DefaultConstants.response
+            damping = DefaultConstants.damping
+            duration = DefaultConstants.duration
         }
     }
-    
+
     private func getParams() -> ButtonStyleParams {
         return ButtonStyleParams(scale: scale,
                                  rotation: rotation,
@@ -265,7 +276,8 @@ struct ContentView: View {
                                  damping: damping,
                                  duration: duration)
     }
-    
+
+    // swiftlint:disable function_body_length line_length
     private func generatedCode() -> String {
         return
 """
@@ -273,7 +285,7 @@ struct MyButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .background(Capsule()
-                            .foregroundColor(configuration.isPressed ? Color(.sRGB, red:\(color.components.red.rounded(toPlaces: 3)), green:\(color.components.green.rounded(toPlaces: 3)), blue:\(color.components.blue.rounded(toPlaces: 3)), opacity:\(color.components.opacity.rounded(toPlaces: 2))) : Color.primary))
+                            .foregroundColor(configuration.isPressed ? Color(.sRGB, red:\(color.redComponent.rounded(toPlaces: 3)), green:\(color.greenComponent.rounded(toPlaces: 3)), blue:\(color.blueComponent.rounded(toPlaces: 3)), opacity:\(color.alphaComponent.rounded(toPlaces: 2))) : Color.primary))
             .scaleEffect(configuration.isPressed ? CGFloat(\(scale)) : 1.0)
             .rotationEffect(.degrees(configuration.isPressed ? \(rotation) : 0))
             .blur(radius: configuration.isPressed ? CGFloat(\(blur)) : 0)
@@ -309,11 +321,11 @@ Button(action: { }) {
 
 """
     }
-    
+
     private func copySnippet() {
         let pasteboard = UIPasteboard.general
         pasteboard.string = generatedCode()
-        
+
         withAnimation {
             showCopied = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -323,7 +335,7 @@ Button(action: { }) {
             }
         }
     }
-    
+
     private func goToGithub() {
         openURL(URL(string: "https://github.com/atrinh0/buttoncraft")!)
     }

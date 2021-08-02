@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct buttoncraftApp: App {
+struct ButtoncraftApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

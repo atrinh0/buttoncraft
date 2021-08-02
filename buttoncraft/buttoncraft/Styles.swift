@@ -32,23 +32,33 @@ struct TestButton: ViewModifier {
 struct ButtonPressedStyle: ButtonStyle {
     var style: ButtonStyleParams
     var drawBackground: Bool
-    
+
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .background(Capsule()
-                            .foregroundColor(configuration.isPressed ? Color(.sRGB, red: style.color.components.red, green: style.color.components.green, blue: style.color.components.blue, opacity: style.color.components.opacity) : Color.primary)
+                            .foregroundColor(configuration.isPressed ? getRGBColor() : Color.primary)
                             .opacity(drawBackground ? 1 : 0))
             .scaleEffect(configuration.isPressed ? CGFloat(style.scale) : 1.0)
             .rotationEffect(.degrees(configuration.isPressed ? style.rotation : 0))
             .blur(radius: configuration.isPressed ? CGFloat(style.blur) : 0)
-            .animation(style.animate ? Animation.spring(response: style.response, dampingFraction: style.damping, blendDuration: style.duration) : .none)
+            .animation(style.animate ? Animation.spring(response: style.response,
+                                                        dampingFraction: style.damping,
+                                                        blendDuration: style.duration) : .none)
+    }
+
+    private func getRGBColor() -> Color {
+        Color(.sRGB,
+              red: style.color.redComponent,
+              green: style.color.greenComponent,
+              blue: style.color.blueComponent,
+              opacity: style.color.alphaComponent)
     }
 }
 
 struct PaddedStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .accentColor(DEFAULT_COLOR)
+            .accentColor(DefaultConstants.color)
             .padding(.vertical)
             .padding(.horizontal, 20)
             .background(RoundedRectangle(cornerRadius: 20, style: .continuous)

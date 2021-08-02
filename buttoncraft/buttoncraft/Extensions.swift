@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 extension Double {
-    func rounded(toPlaces places:Int) -> Double {
+    func rounded(toPlaces places: Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
     }
@@ -40,15 +40,47 @@ extension Button {
 }
 
 extension Color {
-    var components: (red: Double, green: Double, blue: Double, opacity: Double) {
-        typealias NativeColor = UIColor
-        var r: CGFloat = 0
-        var g: CGFloat = 0
-        var b: CGFloat = 0
-        var o: CGFloat = 0
-        guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
-            return (0, 0, 0, 0)
+    var redComponent: Double {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        guard UIColor(self).getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
+            return 0
         }
-        return (Double(r), Double(g), Double(b), Double(o))
+        return red
+    }
+
+    var greenComponent: Double {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        guard UIColor(self).getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
+            return 0
+        }
+        return green
+    }
+
+    var blueComponent: Double {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        guard UIColor(self).getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
+            return 0
+        }
+        return blue
+    }
+
+    var alphaComponent: Double {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        guard UIColor(self).getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
+            return 0
+        }
+        return alpha
     }
 }
