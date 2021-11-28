@@ -1,31 +1,15 @@
 //
-//  Styles.swift
+//  Button+Extensions.swift
 //  buttoncraft
 //
-//  Created by An Trinh on 23/9/20.
+//  Created by An Trinh on 28/11/2021.
 //
 
 import SwiftUI
 
-struct ButtonStyleParams {
-    let scale: Double
-    let rotation: Double
-    let blur: Double
-    let color: Color
-    let animate: Bool
-    let response: Double
-    let damping: Double
-    let duration: Double
-}
-
-struct TestButton: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .font(Font.body.bold())
-            .imageScale(.large)
-            .padding()
-            .foregroundColor(Color.primary)
-            .colorInvert()
+extension Button {
+    func pressableButton(style: ButtonStyleParams, drawBackground: Bool = true) -> some View {
+        self.buttonStyle(ButtonPressedStyle(style: style, drawBackground: drawBackground))
     }
 }
 
@@ -52,17 +36,5 @@ struct ButtonPressedStyle: ButtonStyle {
               green: style.color.greenComponent,
               blue: style.color.blueComponent,
               opacity: style.color.alphaComponent)
-    }
-}
-
-struct PaddedStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .accentColor(DefaultConstants.color)
-            .padding(.vertical)
-            .padding(.horizontal, 20)
-            .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .foregroundColor(Color(UIColor.secondarySystemBackground)))
-            .padding(.horizontal)
     }
 }

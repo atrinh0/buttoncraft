@@ -7,21 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FC1215AB251B3B430002CB69 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1215AA251B3B430002CB69 /* Styles.swift */; };
-		FC1215B1251B3BB50002CB69 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1215B0251B3BB50002CB69 /* Extensions.swift */; };
+		FC1215AB251B3B430002CB69 /* ButtonStyleParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1215AA251B3B430002CB69 /* ButtonStyleParams.swift */; };
+		FC1215B1251B3BB50002CB69 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1215B0251B3BB50002CB69 /* Double+Extensions.swift */; };
 		FC232DAF24E1FCEA004BB4DD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC232DAE24E1FCEA004BB4DD /* Launch Screen.storyboard */; };
-		FCD646C524D70343002E1D9C /* buttoncraftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD646C424D70343002E1D9C /* buttoncraftApp.swift */; };
+		FCBFDCA52753FD8B00AF2C5D /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBFDCA42753FD8B00AF2C5D /* Color+Extensions.swift */; };
+		FCBFDCA72753FDA900AF2C5D /* Button+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBFDCA62753FDA900AF2C5D /* Button+Extensions.swift */; };
+		FCBFDCA92753FDE100AF2C5D /* Text+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBFDCA82753FDE100AF2C5D /* Text+Extensions.swift */; };
+		FCBFDCAB2753FE0600AF2C5D /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBFDCAA2753FE0600AF2C5D /* Image+Extensions.swift */; };
+		FCBFDCAD2753FE3700AF2C5D /* VStack+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBFDCAC2753FE3700AF2C5D /* VStack+Extensions.swift */; };
+		FCD646C524D70343002E1D9C /* ButtoncraftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD646C424D70343002E1D9C /* ButtoncraftApp.swift */; };
 		FCD646C724D70343002E1D9C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD646C624D70343002E1D9C /* ContentView.swift */; };
 		FCD646C924D70346002E1D9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCD646C824D70346002E1D9C /* Assets.xcassets */; };
 		FCD646CC24D70346002E1D9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCD646CB24D70346002E1D9C /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FC1215AA251B3B430002CB69 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
-		FC1215B0251B3BB50002CB69 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		FC1215AA251B3B430002CB69 /* ButtonStyleParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyleParams.swift; sourceTree = "<group>"; };
+		FC1215B0251B3BB50002CB69 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		FC232DAE24E1FCEA004BB4DD /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		FCBFDCA42753FD8B00AF2C5D /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		FCBFDCA62753FDA900AF2C5D /* Button+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Extensions.swift"; sourceTree = "<group>"; };
+		FCBFDCA82753FDE100AF2C5D /* Text+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Extensions.swift"; sourceTree = "<group>"; };
+		FCBFDCAA2753FE0600AF2C5D /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
+		FCBFDCAC2753FE3700AF2C5D /* VStack+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VStack+Extensions.swift"; sourceTree = "<group>"; };
 		FCD646C124D70343002E1D9C /* buttoncraft.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = buttoncraft.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FCD646C424D70343002E1D9C /* buttoncraftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buttoncraftApp.swift; sourceTree = "<group>"; };
+		FCD646C424D70343002E1D9C /* ButtoncraftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtoncraftApp.swift; sourceTree = "<group>"; };
 		FCD646C624D70343002E1D9C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FCD646C824D70346002E1D9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FCD646CB24D70346002E1D9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -39,6 +49,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FCBFDCA32753FD4F00AF2C5D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FCBFDCA62753FDA900AF2C5D /* Button+Extensions.swift */,
+				FCBFDCA42753FD8B00AF2C5D /* Color+Extensions.swift */,
+				FC1215B0251B3BB50002CB69 /* Double+Extensions.swift */,
+				FCBFDCAA2753FE0600AF2C5D /* Image+Extensions.swift */,
+				FCBFDCA82753FDE100AF2C5D /* Text+Extensions.swift */,
+				FCBFDCAC2753FE3700AF2C5D /* VStack+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		FCD646B824D70343002E1D9C = {
 			isa = PBXGroup;
 			children = (
@@ -58,10 +81,10 @@
 		FCD646C324D70343002E1D9C /* buttoncraft */ = {
 			isa = PBXGroup;
 			children = (
-				FCD646C424D70343002E1D9C /* buttoncraftApp.swift */,
+				FCBFDCA32753FD4F00AF2C5D /* Extensions */,
+				FCD646C424D70343002E1D9C /* ButtoncraftApp.swift */,
 				FCD646C624D70343002E1D9C /* ContentView.swift */,
-				FC1215AA251B3B430002CB69 /* Styles.swift */,
-				FC1215B0251B3BB50002CB69 /* Extensions.swift */,
+				FC1215AA251B3B430002CB69 /* ButtonStyleParams.swift */,
 				FCD646C824D70346002E1D9C /* Assets.xcassets */,
 				FCD646CD24D70346002E1D9C /* Info.plist */,
 				FCD646CA24D70346002E1D9C /* Preview Content */,
@@ -170,10 +193,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC1215B1251B3BB50002CB69 /* Extensions.swift in Sources */,
-				FC1215AB251B3B430002CB69 /* Styles.swift in Sources */,
+				FCBFDCA52753FD8B00AF2C5D /* Color+Extensions.swift in Sources */,
+				FC1215B1251B3BB50002CB69 /* Double+Extensions.swift in Sources */,
+				FCBFDCAB2753FE0600AF2C5D /* Image+Extensions.swift in Sources */,
+				FC1215AB251B3B430002CB69 /* ButtonStyleParams.swift in Sources */,
+				FCBFDCA92753FDE100AF2C5D /* Text+Extensions.swift in Sources */,
 				FCD646C724D70343002E1D9C /* ContentView.swift in Sources */,
-				FCD646C524D70343002E1D9C /* buttoncraftApp.swift in Sources */,
+				FCD646C524D70343002E1D9C /* ButtoncraftApp.swift in Sources */,
+				FCBFDCAD2753FE3700AF2C5D /* VStack+Extensions.swift in Sources */,
+				FCBFDCA72753FDA900AF2C5D /* Button+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

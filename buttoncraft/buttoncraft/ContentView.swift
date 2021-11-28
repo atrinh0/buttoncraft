@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DefaultConstants {
+enum DefaultConstants {
     static let scale: Double = 0.85
     static let rotation: Double = 0
     static let blur: Double = 0

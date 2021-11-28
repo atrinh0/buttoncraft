@@ -1,0 +1,11 @@
+opt_in_rules:
+  - convenience_type
+  - empty_count
+  - empty_string
+  - fatal_error_message
+  - file_name
+  - first_where
+  - modifier_order
+  - prohibited_interface_builder
+  - toggle_bool
+  - unused_declaration
