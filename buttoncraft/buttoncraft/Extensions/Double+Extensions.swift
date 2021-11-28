@@ -5,7 +5,7 @@
 //  Created by An Trinh on 23/9/20.
 //
 
-import UIKit
+import Foundation
 
 extension Double {
     func rounded(toPlaces places: Int) -> Double {
