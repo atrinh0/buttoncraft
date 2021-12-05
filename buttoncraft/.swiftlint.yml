@@ -5,7 +5,15 @@ opt_in_rules:
   - fatal_error_message
   - file_name
   - first_where
+  - force_unwrapping
+  - identical_operands
+  - implicit_return
   - modifier_order
   - prohibited_interface_builder
   - toggle_bool
+  - trailing_closure
+  - unused_import
   - unused_declaration
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+  - yoda_condition

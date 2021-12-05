@@ -45,7 +45,7 @@ struct ContentView: View {
                         .foregroundColor(Color.primary)
                         .padding()
                 }
-                .pressableButton(style: getParams(), drawBackground: false)
+                .pressableButton(style: buttonStyleParams, drawBackground: false)
                 Spacer()
                 Button {
                     reset()
@@ -56,7 +56,7 @@ struct ContentView: View {
                         .foregroundColor(Color.primary)
                         .padding()
                 }
-                .pressableButton(style: getParams(), drawBackground: false)
+                .pressableButton(style: buttonStyleParams, drawBackground: false)
             }
             .overlay(Text("buttoncraft")
                         .font(Font.largeTitle.bold()))
@@ -66,18 +66,18 @@ struct ContentView: View {
                     Text("tap here")
                         .testButtonStyle()
                 }
-                .pressableButton(style: getParams())
+                .pressableButton(style: buttonStyleParams)
                 Button { } label: {
                     Text("or here")
                         .font(Font.body.bold())
                         .padding()
                 }
-                .pressableButton(style: getParams(), drawBackground: false)
+                .pressableButton(style: buttonStyleParams, drawBackground: false)
                 Button { } label: {
                     Image(systemName: "star.fill")
                         .testButtonStyle()
                 }
-                .pressableButton(style: getParams())
+                .pressableButton(style: buttonStyleParams)
             }
             .zIndex(1)
             ScrollView {
@@ -172,7 +172,7 @@ struct ContentView: View {
                                 .foregroundColor(Color.primary)
                                 .padding()
                         }
-                        .pressableButton(style: getParams(), drawBackground: false)
+                        .pressableButton(style: buttonStyleParams, drawBackground: false)
                         if showCode {
                             Button {
                                 goToGithub()
@@ -185,14 +185,14 @@ struct ContentView: View {
                                     .foregroundColor(Color.primary)
                                     .padding()
                             }
-                            .pressableButton(style: getParams(), drawBackground: false)
+                            .pressableButton(style: buttonStyleParams, drawBackground: false)
                         }
                         Spacer()
                     }
                     .padding(.top)
                     if showCode {
                         ZStack(alignment: .bottomTrailing) {
-                            Text(generatedCode())
+                            Text(generatedCode)
                                 .font(Font.custom("Menlo-Regular", size: 12))
                                 .padding()
                                 .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
@@ -207,7 +207,7 @@ struct ContentView: View {
                                         .imageScale(.large)
                                         .foregroundColor(Color.primary)
                                 }
-                                .pressableButton(style: getParams(), drawBackground: false)
+                                .pressableButton(style: buttonStyleParams, drawBackground: false)
                                 if showCopied {
                                     Text("Copied")
                                         .font(Font.body.bold())
@@ -220,13 +220,13 @@ struct ContentView: View {
                                 Text("just like that")
                                     .testButtonStyle()
                             }
-                            .pressableButton(style: getParams())
+                            .pressableButton(style: buttonStyleParams)
                             .id(73)
                             Button { } label: {
                                 Image(systemName: "face.smiling")
                                     .testButtonStyle()
                             }
-                            .pressableButton(style: getParams())
+                            .pressableButton(style: buttonStyleParams)
                         }
                     }
                     Spacer(minLength: 20)
@@ -266,65 +266,63 @@ extension ContentView {
         }
     }
 
-    private func getParams() -> ButtonStyleParams {
-        return ButtonStyleParams(scale: scale,
-                                 rotation: rotation,
-                                 blur: blur,
-                                 color: color,
-                                 animate: animate,
-                                 response: response,
-                                 damping: damping,
-                                 duration: duration)
+    private var buttonStyleParams: ButtonStyleParams {
+        ButtonStyleParams(scale: scale,
+                          rotation: rotation,
+                          blur: blur,
+                          color: color,
+                          animate: animate,
+                          response: response,
+                          damping: damping,
+                          duration: duration)
     }
 
-    // swiftlint:disable function_body_length line_length
-    private func generatedCode() -> String {
-        return
-"""
-struct MyButtonStyle: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .background(Capsule()
-                            .foregroundColor(configuration.isPressed ? Color(.sRGB, red:\(color.redComponent.rounded(toPlaces: 3)), green:\(color.greenComponent.rounded(toPlaces: 3)), blue:\(color.blueComponent.rounded(toPlaces: 3)), opacity:\(color.alphaComponent.rounded(toPlaces: 2))) : Color.primary))
-            .scaleEffect(configuration.isPressed ? CGFloat(\(scale)) : 1.0)
-            .rotationEffect(.degrees(configuration.isPressed ? \(rotation) : 0))
-            .blur(radius: configuration.isPressed ? CGFloat(\(blur)) : 0)
-            .animation(\(animate ? "Animation.spring(response: \(response), dampingFraction: \(damping), blendDuration: 1)" : ".none"))
-    }
-}
+    // swiftlint:disable line_length
+    private var generatedCode: String {
+        """
+        struct MyButtonStyle: ButtonStyle {
+            func makeBody(configuration: Self.Configuration) -> some View {
+                configuration.label
+                    .background(Capsule()
+                                    .foregroundColor(configuration.isPressed ? Color(.sRGB, red:\(color.redComponent.rounded(toPlaces: 3)), green:\(color.greenComponent.rounded(toPlaces: 3)), blue:\(color.blueComponent.rounded(toPlaces: 3)), opacity:\(color.alphaComponent.rounded(toPlaces: 2))) : Color.primary))
+                    .scaleEffect(configuration.isPressed ? CGFloat(\(scale)) : 1.0)
+                    .rotationEffect(.degrees(configuration.isPressed ? \(rotation) : 0))
+                    .blur(radius: configuration.isPressed ? CGFloat(\(blur)) : 0)
+                    .animation(\(animate ? "Animation.spring(response: \(response), dampingFraction: \(damping.rounded(toPlaces: 2)), blendDuration: 1)" : ".none"))
+            }
+        }
 
-extension Button {
-    func myButtonStyle() -> some View {
-        self.buttonStyle(MyButtonStyle())
-    }
-}
+        extension Button {
+            func myButtonStyle() -> some View {
+                self.buttonStyle(MyButtonStyle())
+            }
+        }
 
-// to use
-Button { } label: {
-    Text("just like that")
-        .font(Font.body.bold())
-        .padding()
-        .foregroundColor(Color.primary)
-        .colorInvert()
-}
-.myButtonStyle()
+        // to use
+        Button { } label: {
+            Text("just like that")
+                .font(Font.body.bold())
+                .padding()
+                .foregroundColor(Color.primary)
+                .colorInvert()
+        }
+        .myButtonStyle()
 
-Button { } label: {
-    Image(systemName: "face.smiling")
-        .font(Font.body.bold())
-        .imageScale(.large)
-        .padding()
-        .foregroundColor(Color.primary)
-        .colorInvert()
-}
-.myButtonStyle()
-
-"""
+        Button { } label: {
+            Image(systemName: "face.smiling")
+                .font(Font.body.bold())
+                .imageScale(.large)
+                .padding()
+                .foregroundColor(Color.primary)
+                .colorInvert()
+        }
+        .myButtonStyle()
+        """
     }
 
     private func copySnippet() {
         let pasteboard = UIPasteboard.general
-        pasteboard.string = generatedCode()
+        pasteboard.string = generatedCode
 
         withAnimation {
             showCopied = true
@@ -337,7 +335,8 @@ Button { } label: {
     }
 
     private func goToGithub() {
-        openURL(URL(string: "https://github.com/atrinh0/buttoncraft")!)
+        guard let url = URL(string: "https://github.com/atrinh0/buttoncraft") else { return }
+        openURL(url)
     }
 }
 
