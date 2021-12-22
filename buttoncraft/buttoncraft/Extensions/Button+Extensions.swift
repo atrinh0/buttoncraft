@@ -27,7 +27,8 @@ struct ButtonPressedStyle: ButtonStyle {
             .blur(radius: configuration.isPressed ? CGFloat(style.blur) : 0)
             .animation(style.animate ? Animation.spring(response: style.response,
                                                         dampingFraction: style.damping,
-                                                        blendDuration: style.duration) : .none)
+                                                        blendDuration: style.duration) : .none,
+                       value: configuration.isPressed)
     }
 
     private func getRGBColor() -> Color {

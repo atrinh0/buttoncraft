@@ -6,7 +6,7 @@
     <img src="https://img.shields.io/badge/Swift-5.5-orange.svg" />
     <img src="https://img.shields.io/badge/SwiftUI-3.0-red.svg" />
 </p>
- 
+
 # buttoncraft (SwiftUI 3.0 App)
 > Experimenting with `SwiftUI 3.0` whilst creating a practical app to craft that perfect button style.
 
@@ -27,7 +27,7 @@ struct MyButtonStyle: ButtonStyle {
             .scaleEffect(configuration.isPressed ? CGFloat(0.85) : 1.0)
             .rotationEffect(.degrees(configuration.isPressed ? 0.0 : 0))
             .blur(radius: configuration.isPressed ? CGFloat(0.0) : 0)
-            .animation(Animation.spring(response: 0.35, dampingFraction: 0.35, blendDuration: 1))
+            .animation(Animation.spring(response: 0.35, dampingFraction: 0.35, blendDuration: 1), value: configuration.isPressed)
     }
 }
 
