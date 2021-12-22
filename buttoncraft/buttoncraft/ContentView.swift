@@ -288,7 +288,7 @@ extension ContentView {
                     .scaleEffect(configuration.isPressed ? CGFloat(\(scale)) : 1.0)
                     .rotationEffect(.degrees(configuration.isPressed ? \(rotation) : 0))
                     .blur(radius: configuration.isPressed ? CGFloat(\(blur)) : 0)
-                    .animation(\(animate ? "Animation.spring(response: \(response), dampingFraction: \(damping.rounded(toPlaces: 2)), blendDuration: 1)" : ".none"))
+                    .animation(\(animate ? "Animation.spring(response: \(response), dampingFraction: \(damping.rounded(toPlaces: 2)), blendDuration: 1)" : ".none"), value: configuration.isPressed)
             }
         }
 
