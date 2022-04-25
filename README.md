@@ -7,12 +7,14 @@
     <img src="https://img.shields.io/badge/SwiftUI-3.0-red.svg" />
 </p>
 
-# buttoncraft (SwiftUI 3.0 App)
-> Experimenting with `SwiftUI 3.0` whilst creating a practical app to craft that perfect button style.
+# buttoncraft (SwiftUI App)
+> Experimenting with `SwiftUI` whilst creating a practical app to craft that perfect button style.
 
 ### ✈️ Testflight
 
 https://testflight.apple.com/join/pZDhygQt
+
+> Last TestFlight bump: 25th April 2022
 
 <img src="images/demo.gif"> <img src="images/copycode.gif">
 
