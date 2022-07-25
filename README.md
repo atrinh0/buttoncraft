@@ -14,7 +14,7 @@
 
 https://testflight.apple.com/join/pZDhygQt
 
-> Last TestFlight bump: 25th April 2022
+> Last TestFlight bump: 25th April 2022 (bump)
 
 <img src="images/demo.gif"> <img src="images/copycode.gif">
 
